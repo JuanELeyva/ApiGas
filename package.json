@@ -1,0 +1,16 @@
+{
+  "name": "apigas",
+  "version": "1.0.0",
+  "description": "Modules for work this api whit comunication to DB and sensor the PSI",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.0",
+    "sequelize": "^6.37.3"
+  }
+}
