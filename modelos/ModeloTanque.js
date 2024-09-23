@@ -1,6 +1,6 @@
 const { DataTypes, Model } = require('sequelize');
 const conBD = require('../DB/condb')
-const Usuario = require('../modelos/Modelousuario')
+const Usuario = require('../ModeloUsuario')
 
 class Tanque extends Model {}
 

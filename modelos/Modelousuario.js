@@ -40,4 +40,3 @@ async function syncModels() {
   syncModels();
 
 module.exports = Usuario
-  
