@@ -1,10 +1,32 @@
 const Usuario = require('../modelos/ModeloUsuario')
 const { HashPassword,ConfirmPassword } = require('../middleware/ByEncrpy')
 
+const getConfirmarLogin = async (req,res) =>{
+    try{
+        const contra = req.body.contra
+        const correo = req.body.correo
+        const usuarioCorreo = await Usuario.findOne({ where:{correo:correo}})
+        if(usuarioCorreo){
+            if(ConfirmPassword(contra,usuarioCorreo.contra))
+            {
+                res.status(200).json({message:'Inicio de sesion exitoso'})
+            }
+            else{
+                res.status(401).json({message:'Correo o contraseña incorrectos'})
+            }
+        }
+        else{
+            res.status(401).json({message:'Correo o contraseña incorrectos'})
+        }
+    } catch(error){
+        res.status(500).json({message:error})
+    }
+}
+
 const getUsuario = async (req,res) => {
     try{
-        const UsuarioConsul = Usuario.findAll()
-        res.json(UsuarioConsul)
+        const UsuarioConsul = await Usuario.findAll()
+        res.status(200).json(UsuarioConsul)
     } catch(error){
         res.status(500).json({ message: error });
     }
@@ -13,9 +35,9 @@ const getUsuario = async (req,res) => {
 const getUnUsuario = async (req,res) => {
     try{
         const id = req.body.id
-        const UsuarioConsulId = Usuario.findByPk(id)
-        if(UsuarioConsulId){
-            res.json(UsuarioConsulId)
+        const usuarioConsulId = await Usuario.findByPk(id)
+        if(usuarioConsulId){
+            res.json(usuarioConsulId)
         }
         else{
             res.status(400).json({ message: 'No se ha encontrado ese usuario con ese id' })
@@ -41,9 +63,9 @@ const putUsuarioContra = async (req,res) =>{
     try{
         const Usuarioid = req.body.id
         const contraNueva = req.body.contra
-        const UsuarioModif = Usuario.findByPk(Usuarioid)
-        if(UsuarioModif){
-            UsuarioModif.contra = HashPassword(contraNueva)
+        const usuarioModif = Usuario.findByPk(Usuarioid)
+        if(usuarioModif){
+            usuarioModif.contra = HashPassword(contraNueva)
             await ProspectoModif.save()
             res.status(200).json({message: 'Se ha actualizado la contraseña'})
         }else{
@@ -56,8 +78,38 @@ const putUsuarioContra = async (req,res) =>{
 
 const putUsuarioCorreooYNom = async (req,res) => {
     try{
-
+        const Usuarioid = req.body.id
+        const correoNuevo = req.body.correo
+        const usuarionom = req.body.usuarionom
+        const usuarioModifCN = Usuario.findByPk(Usuarioid)
+        if(usuarioModifCN){
+            usuarioModifCN.correo = correoNuevo
+            usuarioModifCN.usuarionom = usuarionom
+            await usuarioModifCN.save()
+            res.status(200).json({message: 'Se ha actualizado el exitosamente el usuario'})
+        }
+        else{
+            res.status(404).json({ message:'No se han encontrado el Usuario con ese ID' })
+        }
     }catch(error){
         res.status(500).json({message:error})
     }
 }
+
+const deleteUsuario = async (req,res) => {
+    try{
+        const UsuarioId = req.body.id
+        const usuarioEliminar = Usuario.findByPk(UsuarioId)
+        if(usuarioEliminar){
+            await usuarioEliminar.destroy()
+            res.status(200).json({message:'Usuario elminado exitosamente'})
+        }
+        else{
+            res.status(404).json({ message:'No se han encontrado el Usuario con ese ID' })
+        }
+    }catch(error){
+        res.status(500).json({message:error})
+    }
+}
+
+module.exports = {getUsuario,getUnUsuario,postUsuario,putUsuarioContra,putUsuarioContra,deleteUsuario,getConfirmarLogin}

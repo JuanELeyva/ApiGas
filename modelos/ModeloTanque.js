@@ -15,6 +15,10 @@ Tanque.init({
     litros:{
         type: DataTypes.FLOAT,
         allowNull:false
+    },
+    capacidad:{
+      type: DataTypes.FLOAT,
+        allowNull:false
     }
     },
     {
