@@ -18,6 +18,10 @@ Usuario.init({
     contra:{
         type: DataTypes.STRING,
         allowNull:false
+    },
+    usuarionom:{
+        type: DataTypes.STRING,
+        allowNull:false
     }
     },
     {
