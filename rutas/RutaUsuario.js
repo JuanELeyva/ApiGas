@@ -12,7 +12,7 @@ router.post('/Alta',postUsuario)
 
 router.put('/ResetContra',putUsuarioContra)
 
-router.put('/ResetNombreYCorre',putUsuarioCorreooYNom)
+router.put('/ResetNombreYCorreo',putUsuarioCorreooYNom)
 
 router.delete('/Eliminar',deleteUsuario)
 

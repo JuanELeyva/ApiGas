@@ -13,11 +13,11 @@ const getTanquePorUsuario = async (req,res) =>{
     try{
         const usuarioId = req.body.id
         const tanquesDelUsuario = await Tanque.findAll({where: {idusuario: usuarioId}})
-        if(tanquesDelUsuario){
+        if(tanquesDelUsuario.length != 0){
             res.status(200).json(tanquesDelUsuario)
         }
         else{
-            res.status(400).json({ message : 'No se encontro ningun tanque asignado a ese usuario' })
+            res.status(404).json({ message : 'No se encontro ningun tanque asignado a ese usuario' })
         }
     } catch(error){
         res.status(500).json({ message : error })
@@ -29,10 +29,10 @@ const getunTanque = async (req,res) =>{
         const id = req.body.id
         const tanqueConsulId = await Tanque.findByPk(id)
         if(tanqueConsulId){
-            res.status(200).json(TanqueConsulId)
+            res.status(200).json(tanqueConsulId)
         }
         else {
-            res.status(400).json({ message : 'No se ha encontrado ese tanque con ese id' })
+            res.status(404).json({ message : 'No se ha encontrado ese tanque con ese id' })
         }
     } catch(error){
         res.status(500).json({ message: error });
@@ -57,11 +57,11 @@ const putTanque = async (req,res) =>{
         const tanqueACambiar = await Tanque.findByPk(tanqueId)
         if(tanqueACambiar){
             tanqueACambiar.litros = litros
-            tanqueACambiar.save()
+            await tanqueACambiar.save()
             res.status(200).json({ message : 'Se ha actualizado correctamente' })
         }
         else{
-            res.status(400).json({ message : 'No se ha encontrado ningun tanque con ese ID' })
+            res.status(404).json({ message : 'No se ha encontrado ningun tanque con ese ID' })
         }
     } catch(error){
         res.status(500).json({ message : error })
@@ -72,11 +72,11 @@ const deleteTanque = async (req,res) =>{
         const tanqueId = req.body.id
         const tanqueEliminar = await Tanque.findByPk(tanqueId)
         if(tanqueEliminar){
-            tanqueEliminar.destroy()
+            await tanqueEliminar.destroy()
             res.status(200).json({ message : 'Se ha eliminado el tanque correctamente' })
         }
         else{
-            res.status(400).json({ message : 'No se ha encontrado ningun tanque con ese id' })
+            res.status(404).json({ message : 'No se ha encontrado ningun tanque con ese id' })
         }
     } catch(error){
         res.status(500).json({ message : error })

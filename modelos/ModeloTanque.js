@@ -29,8 +29,8 @@ Tanque.init({
     }
 )
 
-Tanque.belongsTo(Usuario,{foreignKey:'usuario',onDelete:'CASCADE'})
-Usuario.hasMany(Tanque,{foreignKey:'usuario'})
+Tanque.belongsTo(Usuario,{foreignKey:'idusuario',onDelete:'CASCADE'})
+Usuario.hasMany(Tanque,{foreignKey:'idusuario'})
 
 async function syncModels() {
     try {

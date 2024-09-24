@@ -91,7 +91,7 @@ const putUsuarioCorreooYNom = async (req,res) => {
         const Usuarioid = req.body.id
         const correoNuevo = req.body.correo
         const usuarionom = req.body.usuarionom
-        const usuarioModifCN = Usuario.findByPk(Usuarioid)
+        const usuarioModifCN = await Usuario.findByPk(Usuarioid)
         if(usuarioModifCN){
             usuarioModifCN.correo = correoNuevo
             usuarioModifCN.usuarionom = usuarionom
@@ -102,6 +102,7 @@ const putUsuarioCorreooYNom = async (req,res) => {
             res.status(404).json({ message:'No se han encontrado el Usuario con ese ID' })
         }
     }catch(error){
+        
         res.status(500).json({message:error})
     }
 }
@@ -109,7 +110,7 @@ const putUsuarioCorreooYNom = async (req,res) => {
 const deleteUsuario = async (req,res) => {
     try{
         const UsuarioId = req.body.id
-        const usuarioEliminar = Usuario.findByPk(UsuarioId)
+        const usuarioEliminar = await Usuario.findByPk(UsuarioId)
         if(usuarioEliminar){
             await usuarioEliminar.destroy()
             res.status(200).json({message:'Usuario elminado exitosamente'})
